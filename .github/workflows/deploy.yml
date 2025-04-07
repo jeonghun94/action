@@ -26,7 +26,7 @@ jobs:
 
     cd:
         needs: ci # ← CI가 먼저 성공해야 CD 실행됨
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/master'
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v4
