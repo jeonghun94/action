@@ -9,8 +9,7 @@ function App() {
                     <img src={viteLogo} className="logo" alt="Vite logo" />
                 </a>
             </div>
-            <h1>Vite </h1>
-            <p className="read-the-docs">Click on the Vite and React logos to learn more</p>
+            <h1>Action Test</h1>
         </>
     );
 }
