@@ -1,34 +1,43 @@
-name: Deploy to GitHub Pages
+name: CI/CD
 
 on:
     push:
-        branches:
-            - master
+        branches: [master]
+    pull_request:
+        branches: [master]
 
 permissions:
     contents: write
     # pull-requests: write
 
 jobs:
-    deploy:
+    ci:
         runs-on: ubuntu-latest
         steps:
-            - name: Checkout code
-              uses: actions/checkout@v4
-
-            - name: Setup Node.js
-              uses: actions/setup-node@v4
+            - uses: actions/checkout@v4
+            - uses: actions/setup-node@v4
               with:
                   node-version: 18
 
-            - name: Install dependencies
-              run: npm ci
+            - run: npm ci
+            - run: npm run lint
+            - run: npm run test
+            - run: npm run build
 
-            - name: Build
-              run: npm run build
+    cd:
+        needs: ci # ← CI가 먼저 성공해야 CD 실행됨
+        if: github.ref == 'refs/heads/main'
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: 18
 
-            - name: Deploy
-              uses: peaceiris/actions-gh-pages@v4
+            - run: npm ci
+            - run: npm run build
+
+            - uses: peaceiris/actions-gh-pages@v4
               with:
                   github_token: ${{ secrets.GITHUB_TOKEN }}
                   publish_dir: ./dist
