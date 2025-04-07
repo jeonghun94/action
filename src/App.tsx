@@ -9,7 +9,7 @@ function App() {
                     <img src={viteLogo} className="logo" alt="Vite logo" />
                 </a>
             </div>
-            <h1>Action Test</h1>
+            <h1>Action CI/CD Test</h1>
         </>
     );
 }
